@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-mstdf"
+version = "0.1.0"
+description = "anoship plug-in: the real MSTDF-AD spatiotemporal-fusion anomaly detector (PyTorch) as a pluggable anoship detector, plus the upstream training/eval pipeline for full reproducibility."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = [
+    "numpy>=1.21",
+    "anoship-core==0.1.0",
+    "anoship-signals==0.1.0",
+    "torch>=2.0",
+    "performer-pytorch",
+    "PyWavelets",
+    "scipy",
+    "scikit-learn",
+    "scikit-image",
+    "pandas",
+    "tqdm",
+    "matplotlib",
+]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+# Two things ship here:
+#  * `mstdf_ad`        -- the verbatim upstream MSTDF-AD implementation (regular package)
+#  * `anoship.contrib` -- the pluggable detector adapter (anoship namespace)
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["mstdf_ad*", "anoship.contrib*"]
+namespaces = true
