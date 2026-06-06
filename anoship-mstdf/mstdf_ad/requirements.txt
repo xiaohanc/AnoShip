@@ -1,0 +1,10 @@
+# pip install -r requirements.txt
+
+black
+performer_pytorch
+tqdm
+scikit-learn
+scikit-image
+pandas
+PyWavelets
+matplotlib
