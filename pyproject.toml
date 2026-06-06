@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Umbrella metapackage: installing `anoship` pulls in every component
+# distribution of the monorepo. The actual code lives in the per-component
+# packages under anoship-core/, anoship-signals/, anoship-detection/,
+# anoship-pipeline/, and anoship-app/.
+[project]
+name = "anoship"
+version = "0.1.0"
+description = "Anomaly-detection-driven deployment safety: progressive rollout, health gating, and automated rollback for production AI/ML systems (monorepo umbrella)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+keywords = [
+    "anomaly-detection",
+    "deployment-safety",
+    "progressive-rollout",
+    "health-gating",
+    "automated-rollback",
+    "mlops",
+    "observability",
+]
+dependencies = [
+    "anoship-core==0.1.0",
+    "anoship-signals==0.1.0",
+    "anoship-detection==0.1.0",
+    "anoship-pipeline==0.1.0",
+    "anoship-app==0.1.0",
+]
+
+[project.optional-dependencies]
+config = ["anoship-app[config]==0.1.0"]
+torch = ["anoship-app[torch]==0.1.0"]
+sklearn = ["anoship-app[sklearn]==0.1.0"]
+dev = ["pytest>=7.0", "pyyaml>=6.0"]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+Repository = "https://github.com/xiaohanc/anoship"
+
+# Metapackage: no importable code of its own.
+[tool.setuptools]
+packages = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
