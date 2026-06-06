@@ -1,5 +1,33 @@
+# --- corkboardPro (existing) ---
 *.pyc
 .DS_Store
 blog.sql
 ./corkboardPro/corkboardPro/__pycache__/*.pyc
 ./corkboardPro/__pycache__/*.pyc
+
+# --- anoship (Python framework) ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Tooling
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Run artifacts
+*.run.json
+
+# OS / editor
+.idea/
+.vscode/
+*.swp
