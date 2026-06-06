@@ -35,6 +35,7 @@ dependencies = [
 config = ["anoship-app[config]==0.1.0"]
 torch = ["anoship-app[torch]==0.1.0"]
 sklearn = ["anoship-app[sklearn]==0.1.0"]
+mstdf = ["anoship-mstdf==0.1.0"]
 dev = ["pytest>=7.0", "pyyaml>=6.0"]
 
 [project.urls]
