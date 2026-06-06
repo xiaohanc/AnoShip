@@ -54,6 +54,13 @@ from anoship.scoring import thresholds as _thresholds  # noqa: F401
 
 from .builder import build_detector, build_pipeline, build_threshold
 
+# Optional heavyweight integrations: register them if their distribution and
+# dependencies (e.g. torch) are installed. Never required for core use.
+try:  # pragma: no cover - optional dependency
+    import anoship.contrib.mstdf as _mstdf  # noqa: F401
+except Exception:  # noqa: BLE001 - any import failure means it's unavailable
+    pass
+
 __version__ = "0.1.0"
 
 __all__ = [
