@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-core"
+version = "0.1.0"
+description = "anoship core: extension interfaces, plugin registry, config schema, and shared value types."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = ["numpy>=1.21"]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["anoship.core*"]
+namespaces = true
