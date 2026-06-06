@@ -19,6 +19,7 @@
   <a href="#-quickstart">Quickstart</a> ·
   <a href="#-detectors--the-pluggable-core">Detectors</a> ·
   <a href="#-the-deployment-pipeline">Pipeline</a> ·
+  <a href="docs/EXPERIMENTS.md">Experiments</a> ·
   <a href="docs/ARCHITECTURE.md">Architecture</a> ·
   <a href="docs/CONTRIBUTING.md">Contributing</a>
 </p>
@@ -113,11 +114,16 @@ peer-reviewed methods:
 | `causal`            | Inter-channel causal/dependency residuals → fine-grained root cause | *Fine-Grained Multivariate Time Series Anomaly Detection via Causal Inference*, Knowledge-Based Systems 2025 |
 | `diffusion`         | Multi-step denoising + cross-step consistency disentangles anomalies from noise | *Toward Robust Anomaly Detection in Noisy Time Series via Diffusion-Driven Denoising and Disentanglement*, J. Supercomputing 2026; *Diffusion-Step Attention Consistency for MTS AD*, KBS 2026 |
 | `spatiotemporal`    | Fuses level/temporal/spatial dependency views; handles non-stationarity | *MSTDF-AD: Modeling Spatiotemporal Dependency Fusion for Non-Stationary Time Series Anomaly Detection*, Information Processing & Management 2026 |
+| `mstdf`             | The **real** PyTorch MSTDF-AD model (not a reimplementation), via `anoship-mstdf` | same as above — vendored upstream for full reproducibility |
 | `ewma`              | EWMA-residual baseline (control)                         | — |
 
-A full PyTorch model (the companion **MSTDF-AD** repo) plugs into the *same*
-interface via `anoship.adapters.torch_mstdf`; scikit-learn estimators via
-`anoship.adapters.sklearn`.
+The `spatiotemporal` detector is a lightweight NumPy reimplementation of the
+MSTDF-AD *idea*. The **actual published PyTorch model** is vendored verbatim in
+the `anoship-mstdf` package (for full reproducibility) and exposed as the
+pluggable `mstdf` detector — `pip install -e anoship-mstdf`, then
+`import anoship.contrib.mstdf`. scikit-learn estimators plug in via
+`anoship.adapters.sklearn`; any reconstruction-based `torch.nn.Module` via
+`anoship.adapters.torch_mstdf`.
 
 ### Detector choice matters
 
