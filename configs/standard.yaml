@@ -1,0 +1,19 @@
+# Standard-risk deployment safety config.
+# Resolve with: anoship run --config configs/standard.yaml
+detector:
+  name: diffusion
+rollout:
+  name: canary
+  canary: 0.01
+  steps: [0.05, 0.25, 0.5, 1.0]
+policy:
+  name: risk_aware
+threshold:
+  name: sigma
+  k: 3.0
+scenario:
+  name: regression
+risk_tier: standard
+seed: 0
+exporters:
+  - console

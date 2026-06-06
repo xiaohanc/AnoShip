@@ -1,0 +1,21 @@
+# Higher-impact deployment: stricter gating, adaptive thresholding, ensemble-grade
+# sensitivity via the diffusion detector. Resolve with:
+#   anoship run --config configs/high_impact.yaml
+detector:
+  name: diffusion
+  energy: 0.9
+rollout:
+  name: regional
+  regions: [us-east, us-west, eu, apac]
+policy:
+  name: risk_aware
+threshold:
+  name: adaptive
+  k: 3.0
+  alpha: 0.1
+scenario:
+  name: drift
+risk_tier: high_impact
+seed: 0
+exporters:
+  - console
