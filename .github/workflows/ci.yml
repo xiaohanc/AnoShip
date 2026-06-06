@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install anoship (all monorepo packages, editable)
+        run: bash scripts/dev_install.sh
+
+      - name: Run tests
+        run: pytest -q
+
+      - name: Smoke-test the CLI
+        run: |
+          anoship list
+          anoship run --scenario regression --detector diffusion --risk-tier high_impact --quiet
