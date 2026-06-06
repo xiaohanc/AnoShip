@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-app"
+version = "0.1.0"
+description = "anoship application layer: high-level API, declarative config builder, CLI, scenario library, reporting, and model adapters."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = [
+    "numpy>=1.21",
+    "anoship-core==0.1.0",
+    "anoship-signals==0.1.0",
+    "anoship-detection==0.1.0",
+    "anoship-pipeline==0.1.0",
+]
+
+[project.optional-dependencies]
+config = ["pyyaml>=6.0"]
+torch = ["torch>=2.0"]
+sklearn = ["scikit-learn>=1.0"]
+
+[project.scripts]
+anoship = "anoship.app.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "anoship.app*",
+    "anoship.scenarios*",
+    "anoship.reporting*",
+    "anoship.adapters*",
+]
+namespaces = true
