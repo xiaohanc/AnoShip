@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="170" viewBox="0 0 680 170" role="img" aria-label="anoship">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0ea5a4"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon: a shield/gate containing a signal stream with one anomaly -->
+  <g transform="translate(20,20)">
+    <rect x="0" y="0" width="130" height="130" rx="28" fill="url(#g)"/>
+    <!-- gate brackets -->
+    <path d="M26 30 v-8 h12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <path d="M104 30 v-8 h-12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <path d="M26 100 v8 h12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <path d="M104 100 v8 h-12" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+    <!-- signal stream -->
+    <polyline points="20,78 38,70 52,82 66,60 80,86 92,40 104,84 112,76"
+              fill="none" stroke="#ffffff" stroke-width="5"
+              stroke-linejoin="round" stroke-linecap="round"/>
+    <!-- anomaly point -->
+    <circle cx="92" cy="40" r="9" fill="#f43f5e" stroke="#ffffff" stroke-width="3"/>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(176,0)">
+    <text x="0" y="84" font-family="'Segoe UI', Helvetica, Arial, sans-serif"
+          font-size="62" font-weight="700" fill="#111827">anoship</text>
+    <text x="2" y="118" font-family="'Segoe UI', Helvetica, Arial, sans-serif"
+          font-size="20" font-weight="500" fill="#4b5563">deployment safety via anomaly detection</text>
+  </g>
+</svg>
