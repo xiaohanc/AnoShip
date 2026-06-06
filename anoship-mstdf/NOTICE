@@ -1,0 +1,29 @@
+anoship-mstdf
+=============
+
+This distribution includes the MSTDF-AD reference implementation, vendored under
+`mstdf_ad/`, so that the methods in the associated publication can be reproduced
+in full.
+
+Original work
+-------------
+"MSTDF-AD: Modeling Spatiotemporal Dependency Fusion for Non-Stationary Time
+Series Anomaly Detection." Information Processing & Management, 2026.
+https://www.sciencedirect.com/science/article/pii/S0306457326002797
+
+Authors: Weikang Shi, Hancheng Xiao, Zhipeng Qiu, Zhixia Zeng, Weifu Zhu,
+Shi Zhang, Ruliang Xiao.
+
+Upstream source: https://github.com/Conviss/MSTDF-AD
+
+Inclusion
+---------
+The `mstdf_ad/` sources are reproduced from the upstream repository (joint work
+of the authors listed above) and are included here with the authors' consent for
+reproducibility. Only intra-package import paths were adjusted to make the code
+importable as the `mstdf_ad` package; the model, training, and evaluation logic
+are unchanged from upstream.
+
+The surrounding anoship framework code is licensed under Apache-2.0 (see
+../LICENSE). The vendored `mstdf_ad/` sources retain authorship credit to the
+authors above.
