@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-signals"
+version = "0.1.0"
+description = "anoship signal layer: sliding windows, typed signal channels, normalization, and synthetic streams."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = ["numpy>=1.21", "anoship-core==0.1.0"]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["anoship.signals*"]
+namespaces = true
