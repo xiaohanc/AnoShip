@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-pipeline"
+version = "0.1.0"
+description = "anoship orchestration layer: progressive rollout, health gating, automated rollback, deployment state machine, risk-tier policies, snapshots, and observability."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = [
+    "numpy>=1.21",
+    "anoship-core==0.1.0",
+    "anoship-signals==0.1.0",
+    "anoship-detection==0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "anoship.pipeline*",
+    "anoship.policy*",
+    "anoship.snapshots*",
+    "anoship.observability*",
+]
+namespaces = true
