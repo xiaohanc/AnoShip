@@ -6,7 +6,7 @@ all built-in detectors in the global registry.
 
 Paper -> module map
 -------------------
-* ``habituation``     -> Anti-Drosophila Habituation Clustering (IEEE ISCIPT 2025)
+* ``habituation``     -> Anti-Drosophila Habituation Stream Clustering / AHSC (IEEE ISCIPT 2025)
 * ``causal``          -> Causal-Inference MTS AD (Knowledge-Based Systems 2025)
 * ``diffusion``       -> Diffusion denoising / disentanglement (J. Supercomputing 2026)
                          + Diffusion-step attention consistency (KBS 2026)

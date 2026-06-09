@@ -11,7 +11,7 @@ published model** (MSTDF-AD), which is vendored here verbatim.
 
 | Goal | Use | Fidelity |
 |------|-----|----------|
-| Understand / run the published *idea* quickly, no datasets, no GPU | built-in detectors (`causal`, `diffusion`, `habituation`, `spatiotemporal`, `ewma`) | NumPy reference implementations of the core ideas |
+| Understand / run the published methods quickly, no datasets, no GPU | built-in detectors (`habituation`, `causal`, `diffusion`, `spatiotemporal`, `ewma`) | NumPy reference implementations (`habituation` is the full AHSC algorithm; the others capture the core idea) |
 | Reproduce the **exact published model + numbers** | the vendored `mstdf_ad` package (`anoship-mstdf`) | byte-for-byte upstream model/training/eval |
 
 The built-in detectors require only NumPy and run in seconds. The exact model
