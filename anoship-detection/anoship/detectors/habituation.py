@@ -1,21 +1,30 @@
-"""Habituation-clustering detector.
+"""Habituation-clustering detector (AHSC).
 
-Reference implementation of the core idea from:
+Faithful reference implementation of:
 
     Hancheng Xiao, WeiFu Zhu, Zhipeng Qiu, Zhixia Zeng, Shi Zhang, Ruliang Xiao.
     "Anti-Drosophila Habituation Clustering for Enhanced Anomaly Detection in
     Data Streams." IEEE ISCIPT 2025. (first author)
     https://ieeexplore.ieee.org/abstract/document/11265546
 
-Core idea
----------
-Borrowing the biological notion of *habituation* (a Drosophila repeatedly
-exposed to a harmless stimulus stops responding to it), the detector learns
-clusters of recurring normal patterns and *suppresses* the anomaly response for
-patterns it has grown familiar with. Rare / novel patterns -- those far from any
-habituated cluster -- retain a high response. This sharply reduces false alarms
-on repetitive but noisy streams, the dominant failure mode of naive distance
-detectors in continuous monitoring.
+The AHSC algorithm (assembled in :mod:`anoship.detectors._ahsc`) treats each row
+of the window as a point in an evolving data stream and runs the paper's six-step
+loop:
+
+1. **Anti-habituation preprocessing** -- a sparse Drosophila olfactory projection
+   (``Y = M . X``) followed by a winner-take-all sparsification (mitigating the
+   curse of dimensionality) and the anti-habituation enhancement that raises
+   intra-cluster cohesion.
+2. **k-means++ initialisation** of the micro/macro-cluster model.
+3. **Macrocluster-first search** for each point's best microcluster (O(log n)).
+4. **Microcluster update** of core/shell counts, center, radius, and weight.
+5. **Removal** of abnormal (decayed) microclusters.
+6. **Macrocluster (re)construction** from the cross-connected microclusters.
+
+A point that lands outside the nearest core microcluster is anomalous, so the
+per-point score is its distance to the best microcluster center relative to that
+cluster's radius. The :class:`BaseDetector` machinery then calibrates a threshold
+on the anomaly-free baseline and produces the final :class:`AnomalyResult`.
 """
 
 from __future__ import annotations
@@ -23,6 +32,7 @@ from __future__ import annotations
 import numpy as np
 
 from ..core.registry import register_detector
+from ._ahsc.ahsc import AHSC
 from .base import BaseDetector
 
 __all__ = ["HabituationClusterDetector"]
@@ -35,52 +45,42 @@ class HabituationClusterDetector(BaseDetector):
     def __init__(
         self,
         n_clusters: int = 8,
-        n_iter: int = 10,
-        habituation: float = 0.7,
+        expansion: int = 40,
+        density: float = 0.1,
+        wta_frac: float = 0.05,
+        alpha: float = 0.1,
+        beta: float = 0.05,
+        theta: float = 100.0,
+        delta: int = 2,
         seed: int = 0,
         **kwargs,
     ) -> None:
         super().__init__(**kwargs)
         self.n_clusters = int(n_clusters)
-        self.n_iter = int(n_iter)
-        self.habituation = float(habituation)
+        self.expansion = int(expansion)
+        self.density = float(density)
+        self.wta_frac = float(wta_frac)
+        self.alpha = float(alpha)
+        self.beta = float(beta)
+        self.theta = float(theta)
+        self.delta = int(delta)
         self.seed = int(seed)
-        self._centroids: np.ndarray | None = None
-        self._familiarity: np.ndarray | None = None
+        self._ahsc: AHSC | None = None
 
     def _fit(self, X: np.ndarray) -> None:
-        rng = np.random.default_rng(self.seed)
-        k = min(self.n_clusters, len(X))
-        idx = rng.choice(len(X), size=k, replace=False)
-        centroids = X[idx].copy()
-
-        # Lloyd's iterations (k-means-lite).
-        for _ in range(self.n_iter):
-            assign = self._assign(X, centroids)
-            for c in range(k):
-                members = X[assign == c]
-                if len(members):
-                    centroids[c] = members.mean(axis=0)
-        assign = self._assign(X, centroids)
-
-        # Familiarity == habituation strength: how often each cluster fires on
-        # the normal baseline, normalized to [0, 1].
-        counts = np.bincount(assign, minlength=k).astype(float)
-        familiarity = counts / counts.max() if counts.max() > 0 else counts
-        self._centroids = centroids
-        self._familiarity = familiarity
-
-    @staticmethod
-    def _assign(X: np.ndarray, centroids: np.ndarray) -> np.ndarray:
-        # (T, k) distance matrix -> nearest centroid index per row.
-        d = np.linalg.norm(X[:, None, :] - centroids[None, :, :], axis=2)
-        return d.argmin(axis=1)
+        self._ahsc = AHSC(
+            expansion=self.expansion,
+            density=self.density,
+            wta_frac=self.wta_frac,
+            alpha=self.alpha,
+            beta=self.beta,
+            n_init=self.n_clusters,
+            theta=self.theta,
+            delta=self.delta,
+            seed=self.seed,
+        )
+        self._ahsc.fit(X)
 
     def _score(self, X: np.ndarray) -> np.ndarray:
-        assert self._centroids is not None and self._familiarity is not None
-        d = np.linalg.norm(X[:, None, :] - self._centroids[None, :, :], axis=2)
-        nearest = d.argmin(axis=1)
-        min_dist = d[np.arange(len(X)), nearest]
-        # Habituated (familiar) clusters dampen the response; novel ones do not.
-        suppression = 1.0 - self.habituation * self._familiarity[nearest]
-        return min_dist * suppression
+        assert self._ahsc is not None
+        return self._ahsc.outlier_scores(X)
