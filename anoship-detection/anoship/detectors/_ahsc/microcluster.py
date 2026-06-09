@@ -76,6 +76,22 @@ class ClusterSpace:
         self.delta = int(delta)
         self.microclusters: List[MicroCluster] = []
         self._macro_centers: List[np.ndarray] = []
+        self._dirty = True  # macrocluster graph needs (re)building
+
+    # ------------------------------------------------------------------ #
+    # membership (online loop support)
+    # ------------------------------------------------------------------ #
+    def add(self, mc: MicroCluster) -> None:
+        self.microclusters.append(mc)
+        self._dirty = True
+
+    def remove(self, mc: MicroCluster) -> None:
+        self.microclusters.remove(mc)
+        self._dirty = True
+
+    def touch(self) -> None:
+        """Flag the macrocluster graph as stale after in-place edits."""
+        self._dirty = True
 
     # ------------------------------------------------------------------ #
     # macrocluster graph
@@ -114,6 +130,7 @@ class ClusterSpace:
         for g in range(next_id):
             members = [m.center for m in mcs if m.macro_id == g]
             self._macro_centers.append(np.mean(members, axis=0))
+        self._dirty = False
 
     def macro_centers(self) -> List[np.ndarray]:
         return self._macro_centers
@@ -131,7 +148,7 @@ class ClusterSpace:
         if not self.microclusters:
             return None, float("inf")
         x = np.asarray(x, dtype=float)
-        if not self._macro_centers:
+        if self._dirty or not self._macro_centers:
             self.build_macroclusters()
 
         # Eq. 10-11: nearest macrocluster.
