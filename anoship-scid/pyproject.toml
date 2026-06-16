@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anoship-scid"
+version = "0.1.0"
+description = "anoship plug-in: a faithful from-paper PyTorch implementation of SCID (Spatiotemporal Causal Inference Detector) exposed as a pluggable anoship detector."
+requires-python = ">=3.9"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Hancheng Xiao", email = "hancheng@meta.com" }]
+dependencies = [
+    "numpy>=1.21",
+    "anoship-core==0.1.0",
+    "anoship-signals==0.1.0",
+    "torch>=2.0",
+    "scipy",
+    "scikit-learn",
+    "pandas",
+]
+
+[project.urls]
+Homepage = "https://github.com/xiaohanc/anoship"
+
+# Two things ship here:
+#  * `scid_ad`         -- the from-paper SCID model (regular package)
+#  * `anoship.contrib` -- the pluggable detector adapter (anoship namespace)
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scid_ad*", "anoship.contrib*"]
+namespaces = true

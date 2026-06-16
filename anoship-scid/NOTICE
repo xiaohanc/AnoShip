@@ -1,0 +1,33 @@
+anoship-scid
+============
+
+This distribution provides a **from-paper** PyTorch implementation of SCID
+(Spatiotemporal Causal Inference Detector), under `scid_ad/`, exposed as a
+pluggable anoship detector.
+
+Original work
+-------------
+"SCID: A Spatiotemporal Causal Inference Detector for multivariate time series
+anomaly detection." Knowledge-Based Systems, 2025.
+
+Authors (paper): Chen, Xiao, Zeng, Zhang, Xiao.
+
+Implementation status
+---------------------
+There is **no public reference implementation** of SCID. The code under
+`scid_ad/` was written *from the paper's description* — it is an independent
+reimplementation of the method's described components (the Predictive
+Reconstruction Process, the Dynamic Causal Representation Encoder with
+counterfactual reasoning, and the dual MMD + soft-DTW objective with two-phase
+training).
+
+Because there is no upstream code and the paper's benchmark datasets are not
+bundled here, this implementation **makes no claim to reproduce the paper's
+reported F1 numbers**. It is validated behaviorally on synthetic anomaly
+injection only. Treat it as a faithful interpretation of the paper, not an
+authoritative reproduction.
+
+The surrounding anoship framework code is licensed under Apache-2.0 (see
+../LICENSE). Credit for the SCID *method* belongs to the paper's authors above;
+this `scid_ad/` code is an independent implementation and is not endorsed by or
+affiliated with them.
