@@ -61,6 +61,11 @@ try:  # pragma: no cover - optional dependency
 except Exception:  # noqa: BLE001 - any import failure means it's unavailable
     pass
 
+try:  # pragma: no cover - optional dependency
+    import anoship.contrib.scid as _scid  # noqa: F401
+except Exception:  # noqa: BLE001 - any import failure means it's unavailable
+    pass
+
 __version__ = "0.1.0"
 
 __all__ = [

@@ -96,6 +96,41 @@ report = pipe.run(scn.source)
 
 ---
 
+## 4b. A from-paper detector — SCID (no reproduction claim)
+
+The `scid` detector is a **from-paper** PyTorch implementation of SCID
+(Spatiotemporal Causal Inference Detector, *Knowledge-Based Systems* 2025). It
+implements the paper's core novelties — the Predictive Reconstruction Process
+(PRP) dual-mask decoder, the Dynamic Causal Representation Encoder (DCRE) with
+counterfactual reasoning, and the dual MMD + soft-DTW objective with two-phase
+training — exposed as a pluggable detector via `anoship-scid`.
+
+```bash
+pip install -e anoship-scid           # torch, scipy, scikit-learn, pandas
+```
+
+```python
+import anoship.app as ans
+import anoship.contrib.scid          # registers the "scid" detector (requires torch)
+
+scn = ans.build_scenario("regression")
+pipe = ans.DeploymentPipeline(
+    detector=ans.DETECTORS.create("scid"),   # quick preset by default
+    rollout=ans.ROLLOUTS.create("canary"),
+    policy=ans.POLICIES.create("risk_aware"),
+).fit(scn.baseline)
+report = pipe.run(scn.source)
+```
+
+> **No reproduction claim.** Unlike `mstdf` (vendored upstream), there is **no
+> public reference implementation of SCID** and no benchmark datasets are
+> bundled. The `scid` code is an independent interpretation of the paper and
+> **does not claim to reproduce the paper's reported F1 numbers**; it is
+> validated behaviorally on synthetic anomaly injection only. See
+> [`../anoship-scid/NOTICE`](../anoship-scid/NOTICE).
+
+---
+
 ## 5. Citation
 
 If you reproduce or build on these methods, please cite the corresponding

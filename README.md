@@ -115,6 +115,7 @@ peer-reviewed methods:
 | `diffusion`         | Multi-step denoising + cross-step consistency disentangles anomalies from noise | *Toward Robust Anomaly Detection in Noisy Time Series via Diffusion-Driven Denoising and Disentanglement*, J. Supercomputing 2026; *Diffusion-Step Attention Consistency for MTS AD*, KBS 2026 |
 | `spatiotemporal`    | Fuses level/temporal/spatial dependency views; handles non-stationarity | *MSTDF-AD: Modeling Spatiotemporal Dependency Fusion for Non-Stationary Time Series Anomaly Detection*, Information Processing & Management 2026 |
 | `mstdf`             | The **real** PyTorch MSTDF-AD model (not a reimplementation), via `anoship-mstdf` | same as above — vendored upstream for full reproducibility |
+| `scid`              | From-paper PyTorch **SCID** (causal inference: PRP dual-mask decoder + DCRE counterfactual reasoning + MMD/soft-DTW dual objective), via `anoship-scid` | *SCID: A Spatiotemporal Causal Inference Detector for MTS Anomaly Detection*, Knowledge-Based Systems 2025 — **from-paper, no reproduction claim** |
 | `ewma`              | EWMA-residual baseline (control)                         | — |
 
 The `habituation` detector is a full NumPy implementation of the AHSC algorithm —
