@@ -1,6 +1,7 @@
 import pytest
 
 torch = pytest.importorskip("torch")
+pytest.importorskip("scid_ad")
 
 from scid_ad.config import SCIDConfig
 from scid_ad.losses import gaussian_mmd2, SCIDLoss, soft_dtw, soft_dtw_normalized

@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 torch = pytest.importorskip("torch")
+pytest.importorskip("scid_ad")
 
 from scid_ad.config import SCIDConfig
 from scid_ad.masking import coefficient_of_variation, mask_rate

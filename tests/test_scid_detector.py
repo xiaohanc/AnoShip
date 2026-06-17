@@ -4,6 +4,7 @@ import pytest
 torch = pytest.importorskip("torch")
 pytest.importorskip("scipy")
 pytest.importorskip("sklearn")
+pytest.importorskip("scid_ad")
 
 import anoship.contrib.scid  # noqa: F401  registers the "scid" detector
 from anoship.core.errors import NotFittedError

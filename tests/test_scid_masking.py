@@ -1,6 +1,7 @@
 import pytest
 
 torch = pytest.importorskip("torch")
+pytest.importorskip("scid_ad")
 
 from scid_ad.causal.counterfactual import counterfactual
 from scid_ad.masking import (

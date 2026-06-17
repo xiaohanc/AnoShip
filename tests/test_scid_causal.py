@@ -1,5 +1,9 @@
 import numpy as np
 import pytest
+
+pytest.importorskip("scipy")
+pytest.importorskip("scid_ad")
+
 from scid_ad.causal import build_causal_graph, ksg_cmi, ksg_mi, normalized_cmi
 from scid_ad.config import SCIDConfig
 
